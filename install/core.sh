@@ -21,7 +21,7 @@ sudo apt install php-mbstring -y &&
 sudo apt install php-gd -y &&
 sudo apt install php-curl -y &&
 wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add - &&
-curl -fsSL https://pgp.mongodb.com/server-7.0.asc |  sudo gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg --dearmor &&
+curl -fsSL https://pgp.mongodb.com/server-7.0.asc |  sudo gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg --dearmor --yes &&
 echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list &&
 sudo apt update -y &&
 sudo apt install mongodb-org -y &&

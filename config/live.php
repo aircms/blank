@@ -30,7 +30,7 @@ return [
     'storage' => [
       'route' => '_storage',
       'url' => 'https://{fsDomain}',
-      'key' => '{fsKey}}'
+      'key' => '{fsKey}'
     ],
     'logs' => [
       'enabled' => true,
