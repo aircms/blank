@@ -1,4 +1,6 @@
 <VirtualHost *:80>
-    ServerName default
-    Redirect permanent / https://{domain}%{REQUEST_URI}
+  ServerName default
+  UseCanonicalName Off
+  RewriteEngine on
+  RewriteRule ^ https://{domain}%{REQUEST_URI} [END,NE,R=permanent]
 </VirtualHost>
