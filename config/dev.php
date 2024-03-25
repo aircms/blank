@@ -10,5 +10,5 @@ return [
     'startup' => [
       'error_reporting' => E_ALL,
     ],
-  ]
+  ],
 ];
