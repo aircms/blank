@@ -1,0 +1,16 @@
+<?php
+
+/** @var bool $exceptionEnabled */
+$exceptionEnabled = $this->exceptionEnabled;
+
+/** @var string $exception */
+$message = $this->message;
+
+/** @var string $trace */
+$trace = $this->trace;
+?>
+  <h4>Is exception enabled: <?php echo $exceptionEnabled ? 'true' : 'false'; ?></h4>
+  <hr>
+  <h4><?php echo $message; ?></h4>
+  <hr>
+<?php echo nl2br($trace); ?>
