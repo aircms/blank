@@ -49,10 +49,10 @@ genDefaultVhost $domain;
 systemctl restart apache2;
 
 if [ "$autoUpdate" = "yes" ];then
-  line="0 0 * * * cd $projectDirectory && composer update";
+  line="0 * * * * cd $projectDirectory && composer update";
   (crontab -u $(whoami) -l; echo "$line" ) | crontab -u $(whoami) -;
 
-  line="0 0 * * * cd $rootDirectory/fs && composer update";
+  line="0 * * * * cd $rootDirectory/fs && composer update";
   (crontab -u $(whoami) -l; echo "$line" ) | crontab -u $(whoami) -;
 fi;
 
