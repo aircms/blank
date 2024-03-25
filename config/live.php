@@ -29,8 +29,8 @@ return [
     ],
     'storage' => [
       'route' => '_storage',
-      'url' => 'https://fs.blank.sandbox.airglobal.tech',
-      'key' => 'SonovzIaIP3Th'
+      'url' => 'https://{fsDomain}',
+      'key' => '{fsKey}}'
     ],
     'logs' => [
       'enabled' => true,
@@ -52,7 +52,9 @@ return [
           'password' => 'very-secured-password',
         ]
       ],
-      'tiny' => 'bvlu7tnuqk6hzt8aoiagxljw9s40ez3obrcz6jn2iijchct6',
+
+      // Don't forget about Tiny key
+      'tiny' => '',
       'menu' => require_once 'nav.php',
     ]
   ],

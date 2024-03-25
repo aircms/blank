@@ -63,6 +63,6 @@ echo "Open https://admin.${domain}/ in your browser.";
 echo "Login:    " $(green "root");
 echo "Password: " $(green "very-secured-password");
 echo "--------------------------------------";
-echo $(green "Dont forget about tiny key.");
+echo $(green "Don't forget about tiny key.");
 echo $(green "Happy development :)");
 echo "--------------------------------------";
