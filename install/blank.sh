@@ -11,6 +11,9 @@ read environment;
 echo "Please, Enter email address (used for urgent renewal and security notices):";
 read email;
 
+echo "Would you like to enable core automatic updates? ('yes' or 'no')";
+read autoUpdate;
+
 . "$(dirname $0)/functions.sh";
 
 echo "--------------------------------------";
@@ -44,6 +47,14 @@ updateStorageConfig "fs.$domain" $key;
 
 genDefaultVhost $domain;
 systemctl restart apache2;
+
+if [ "$autoUpdate" = "yes" ];then
+  line="0 0 * * * cd $projectDirectory && composer update";
+  (crontab -u $(whoami) -l; echo "$line" ) | crontab -u $(whoami) -;
+
+  line="0 0 * * * cd $rootDirectory/fs && composer update";
+  (crontab -u $(whoami) -l; echo "$line" ) | crontab -u $(whoami) -;
+fi;
 
 echo "--------------------------------------";
 echo $(green "Done, We are good :)");
