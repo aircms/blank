@@ -54,7 +54,7 @@ genVhost ()
   vhost=$(echo "$vhost" | sed "s/{dbName}/${_dbName}/");
   vhost=$(echo "$vhost" | sed "s/{environment}/${_environment}/");
 
-  unlink /etc/apache2/sites-enabled/аы$_domain.conf;
+  unlink /etc/apache2/sites-enabled/$_domain.conf;
   echo "$vhost" > /etc/apache2/sites-enabled/$_domain.conf;
 }
 
