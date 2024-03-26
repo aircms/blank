@@ -21,7 +21,7 @@ return [
         'host' => 'localhost',
         'port' => 27017,
       ]],
-      'db' => 'dbName',
+      'db' => getenv('AIR_DB_NAME'),
     ],
     'asset' => [
       'underscore' => true,
@@ -29,8 +29,8 @@ return [
     ],
     'storage' => [
       'route' => '_storage',
-      'url' => 'https://{fsDomain}',
-      'key' => '{fsKey}'
+      'url' => getenv('AIR_FS_URL'),
+      'key' => getenv('AIR_FS_KEY'),
     ],
     'logs' => [
       'enabled' => true,
@@ -48,13 +48,11 @@ return [
         'cookieName' => 'authIdentity',
         'source' => 'database',
         'root' => [
-          'login' => 'root',
-          'password' => 'very-secured-password',
+          'login' => getenv('AIR_ADMIN_ROOT_LOGIN'),
+          'password' => getenv('AIR_ADMIN_ROOT_PASSWORD'),
         ]
       ],
-
-      // Don't forget about Tiny key
-      'tiny' => '',
+      'tiny' => getenv('AIR_ADMIN_TINY'),
       'menu' => require_once 'nav.php',
     ]
   ],

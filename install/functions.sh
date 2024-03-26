@@ -24,37 +24,61 @@ setupFs()
   cd $_projectDirectory;
 }
 
-updateStorageConfig()
-{
-  _fsDomain=$1;
-  _fsKey=$2;
-  _configFile=$(realpath $(dirname $(dirname $0)))/config/live.php;
-
-  sed -i "s~{fsDomain}~$_fsDomain~g" $_configFile;
-  sed -i "s~{fsKey}~$_fsKey~g" $_configFile;
-}
-
 genVhost ()
 {
   _domain=$1;
   _directory=$2;
   _email=$3;
   _environment=$4;
-  _key=$5;
-  _maxPostSize=$6
+  _fsKey=$5;
+  _fsDomain=$6;
+  _rootPassword=$7;
+  _tiny=$8;
+  _dbName=$9;
 
   vhost=$(cat "$(realpath $(dirname $0))/vhosts/default");
   vhost=$(echo "$vhost" | sed "s/{domain}/${_domain}/");
   echo "$vhost" > /etc/apache2/sites-enabled/$_domain.conf;
 
-  sudo certbot certonly -d $_domain -m "$_email" --agree-tos --apache -n;
+  if [ ! -f "/etc/letsencrypt/live/$_domain/fullchain.pem" ]; then
+    sudo certbot certonly -d "$_domain" -m "$_email" --agree-tos --apache -n;
+  fi;
 
-  vhost=$(cat "$(realpath $(dirname $0))/vhosts/ssl");
+  vhost=$(cat "$(realpath $(dirname $0))/vhosts/ssl-site");
   vhost=$(echo "$vhost" | sed "s/{domain}/${_domain}/");
   vhost=$(echo "$vhost" | sed "s~{directory}~${_directory}~");
-  vhost=$(echo "$vhost" | sed "s/{key}/${_key}/");
+  vhost=$(echo "$vhost" | sed "s/{fsDomain}/${_fsDomain}/");
+  vhost=$(echo "$vhost" | sed "s/{fsKey}/${_fsKey}/");
+  vhost=$(echo "$vhost" | sed "s/{rootPassword}/${_rootPassword}/");
+  vhost=$(echo "$vhost" | sed "s/{tiny}/${_tiny}/");
+  vhost=$(echo "$vhost" | sed "s/{dbName}/${_dbName}/");
   vhost=$(echo "$vhost" | sed "s/{environment}/${_environment}/");
-  vhost=$(echo "$vhost" | sed "s/{maxPostSize}/${_maxPostSize}/");
+
+  unlink /etc/apache2/sites-enabled/аы$_domain.conf;
+  echo "$vhost" > /etc/apache2/sites-enabled/$_domain.conf;
+}
+
+genFSVhost ()
+{
+  _domain="fs.$1";
+  _directory=$2;
+  _email=$3;
+  _environment=$4;
+  _fsKey=$5;
+
+  vhost=$(cat "$(realpath $(dirname $0))/vhosts/default");
+  vhost=$(echo "$vhost" | sed "s/{domain}/${_domain}/");
+  echo "$vhost" > /etc/apache2/sites-enabled/$_domain.conf;
+
+  if [ ! -f "/etc/letsencrypt/live/$_domain/fullchain.pem" ]; then
+    sudo certbot certonly -d "$_domain" -m "$_email" --agree-tos --apache -n;
+  fi;
+
+  vhost=$(cat "$(realpath $(dirname $0))/vhosts/ssl-fs");
+  vhost=$(echo "$vhost" | sed "s/{domain}/${_domain}/");
+  vhost=$(echo "$vhost" | sed "s~{directory}~${_directory}~");
+  vhost=$(echo "$vhost" | sed "s/{fsKey}/${_fsKey}/");
+  vhost=$(echo "$vhost" | sed "s/{environment}/${_environment}/");
 
   unlink /etc/apache2/sites-enabled/$_domain.conf;
   echo "$vhost" > /etc/apache2/sites-enabled/$_domain.conf;
@@ -63,9 +87,12 @@ genVhost ()
 genDefaultVhost ()
 {
   _domain=$1;
+  _default="/etc/apache2/sites-enabled/000-$_domain.conf";
 
-  vhost=$(cat "$(realpath $(dirname $0))/vhosts/other");
-  vhost=$(echo "$vhost" | sed "s/{domain}/${_domain}/");
+  if [ ! -f _default ]; then
+    vhost=$(cat "$(realpath $(dirname $0))/vhosts/other");
+    vhost=$(echo "$vhost" | sed "s/{domain}/${_domain}/");
 
-  echo "$vhost" > /etc/apache2/sites-enabled/000-default.conf;
+    echo "$vhost" > $_default;
+  fi;
 }
