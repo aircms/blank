@@ -24,7 +24,7 @@ return [
       'db' => getenv('AIR_DB_NAME'),
     ],
     'asset' => [
-      'underscore' => true,
+      'underscore' => false,
       'prefix' => '/assets',
     ],
     'storage' => [
@@ -43,6 +43,7 @@ return [
       'history' => '_adminHistory',
       'system' => '_system',
       'fonts' => '_fonts',
+      'codes' => '_codes',
       'auth' => [
         'route' => '_auth',
         'cookieName' => 'authIdentity',
